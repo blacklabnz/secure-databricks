@@ -3,7 +3,9 @@ data "azurerm_databricks_workspace" "dbr" {
   resource_group_name = local.rg
 }
 
-data "databricks_spark_version" "latest" {}
+data "databricks_spark_version" "latest" {
+  depends_on = [azurerm_databricks_workspace.dbr]
+}
 
 data "databricks_node_type" "smallest" {
   local_disk = true
