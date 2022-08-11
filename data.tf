@@ -9,6 +9,8 @@ data "databricks_spark_version" "latest" {
 
 data "databricks_node_type" "smallest" {
   local_disk = true
+  min_cores  = 4
+  category   = "Compute optimized"
 }
 
 data "azurerm_client_config" "current" {}

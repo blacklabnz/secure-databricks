@@ -9,3 +9,7 @@ output "dbr" {
 output "ip" {
   value = data.external.my_ip.result.ip
 }
+
+output "cluster" {
+  value = data.databricks_node_type.smallest
+}
