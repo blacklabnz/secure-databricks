@@ -300,9 +300,16 @@ resource "databricks_secret_scope" "kv" {
   }
 }
 
-resource "databricks_notebook" "notbooks" {
-  for_each = fileset("${path.module}/notebooks", "*")
+resource "databricks_notebook" "py_notebooks" {
+  for_each = fileset("${path.module}/notebooks", "*.py")
   source = "${path.module}/notebooks/${each.key}"
   path   = "/run/${element(split(".", each.key), 0)}"
   language = "PYTHON"
+}
+
+resource "databricks_notebook" "sql_notbooks" {
+  for_each = fileset("${path.module}/notebooks", "*.sql")
+  source = "${path.module}/notebooks/${each.key}"
+  path   = "/run/${element(split(".", each.key), 0)}"
+  language = "SQL"
 }
