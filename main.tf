@@ -27,11 +27,11 @@ locals {
   dbr_nsg     = "${local.org}-nsg"
   dbr_cluster = "${local.org}-cluster"
 
-  stor         = "${local.org}stor"
+  stor         = "${local.org}stortvnz"
   stor_pe      = "${local.stor}pe"
   stor_prv_con = "${local.stor}prvcon"
 
-  kv         = "${local.org}-kv"
+  kv         = "${local.org}-kv-tvnz"
   kv_pe      = "${local.kv}pe"
   kv_prv_con = "${local.kv}prvcon"
 }
@@ -291,14 +291,14 @@ resource "azurerm_private_dns_a_record" "kvpe_dns" {
   records             = [azurerm_private_endpoint.kv_pe.private_service_connection.0.private_ip_address]
 }
 
-resource "databricks_secret_scope" "kv" {
-  name = "keyvault-managed"
+# resource "databricks_secret_scope" "kv" {
+#   name = "keyvault-managed"
 
-  keyvault_metadata {
-    resource_id = azurerm_key_vault.kv.id
-    dns_name    = azurerm_key_vault.kv.vault_uri
-  }
-}
+#   keyvault_metadata {
+#     resource_id = azurerm_key_vault.kv.id
+#     dns_name    = azurerm_key_vault.kv.vault_uri
+#   }
+# }
 
 resource "databricks_notebook" "py_notebooks" {
   for_each = fileset("${path.module}/notebooks", "*.py")
